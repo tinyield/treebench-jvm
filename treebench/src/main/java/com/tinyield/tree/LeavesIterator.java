@@ -1,7 +1,5 @@
 package com.tinyield.tree;
 
-import com.tinyield.jayield.INode;
-
 import java.util.function.Supplier;
 
 /**
@@ -19,13 +17,13 @@ public class LeavesIterator<U extends Comparable<U>> extends AbstractIterator<U>
      * Build generator yielding leaves of `node`, then delegating to `genRest`
      */
     @Override
-    protected Gen<U> buildGenerator(INode<U> node, Supplier<Gen<U>> genRestThunk) {
+    protected Gen<U> buildGenerator(Node<U> node, Supplier<Gen<U>> genRestThunk) {
         if (node == null) {
             return genRestThunk.get();
         }
 
-        INode<U> left = node.getLeft();
-        INode<U> right = node.getRight();
+        Node<U> left = node.getLeft();
+        Node<U> right = node.getRight();
 
         // leaf node (both children null) -> yield its value then continue with genRest
         if (left == null && right == null) {

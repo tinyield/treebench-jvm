@@ -1,33 +1,31 @@
 package com.tinyield.tree;
 
-import com.tinyield.jayield.INode;
-
 import java.util.ArrayDeque;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
 
-public class BinaryTreeSpliteratorParallel<T> extends Spliterators.AbstractSpliterator<INode<T>> {
+public class BinaryTreeSpliteratorParallel<T> extends Spliterators.AbstractSpliterator<Node<T>> {
     /**
      * a node that has not been traversed, but its children are only
      * traversed if contained in this.pending
      * (otherwise a different spliterator might be responsible)
      */
-    private INode<T> pendingNode;
+    private Node<T> pendingNode;
     /** pending nodes needing full traversal */
-    private ArrayDeque<INode<T>> pending = new ArrayDeque<>();
+    private ArrayDeque<Node<T>> pending = new ArrayDeque<>();
 
-    public BinaryTreeSpliteratorParallel(INode<T> root) {
+    public BinaryTreeSpliteratorParallel(Node<T> root) {
         super(Long.MAX_VALUE, NONNULL | IMMUTABLE);
         push(root);
     }
 
-    private BinaryTreeSpliteratorParallel(INode<T> pending, INode<T> next) {
+    private BinaryTreeSpliteratorParallel(Node<T> pending, Node<T> next) {
         super(Long.MAX_VALUE, NONNULL | IMMUTABLE);
         pendingNode = pending;
         if(next!=null) this.pending.offer(next);
     }
-    private void push(INode<T> n) {
+    private void push(Node<T> n) {
         if(pendingNode == null) {
             pendingNode = n;
             if(n != null) {
@@ -39,8 +37,8 @@ public class BinaryTreeSpliteratorParallel<T> extends Spliterators.AbstractSplit
     }
 
     @Override
-     public boolean tryAdvance(Consumer<? super INode<T>> action) {
-        INode<T> current = pendingNode;
+     public boolean tryAdvance(Consumer<? super Node<T>> action) {
+        Node<T> current = pendingNode;
         if(current == null) {
             current = pending.poll();
             if(current == null) return false;
@@ -53,8 +51,8 @@ public class BinaryTreeSpliteratorParallel<T> extends Spliterators.AbstractSplit
     }
 
     @Override
-    public void forEachRemaining(Consumer<? super INode<T>> action) {
-        INode<T> current = pendingNode;
+    public void forEachRemaining(Consumer<? super Node<T>> action) {
+        Node<T> current = pendingNode;
         if(current != null) {
             pendingNode = null;
             action.accept(current);
@@ -65,25 +63,25 @@ public class BinaryTreeSpliteratorParallel<T> extends Spliterators.AbstractSplit
             traverseLocal(action, current);
         }
     }
-    private void traverseLocal(Consumer<? super INode<T>> action, INode<T> current) {
+    private void traverseLocal(Consumer<? super Node<T>> action, Node<T> current) {
         do {
             action.accept(current);
-            INode<T> child = current.getLeft();
+            Node<T> child = current.getLeft();
             if(child!=null) traverseLocal(action, child);
             current = current.getRight();
         } while(current != null);
     }
 
     @Override
-    public Spliterator<INode<T>> trySplit() {
-        INode<T> next = pending.poll();
+    public Spliterator<Node<T>> trySplit() {
+        Node<T> next = pending.poll();
         if(next == null) return null;
         if(pending.isEmpty()) {
             pending.offer(next);
             next = null;
         }
         if(pendingNode==null) return next==null? null: new BinaryTreeSpliteratorParallel(next);
-        Spliterator<INode<T>> s = new BinaryTreeSpliteratorParallel(pendingNode, next);
+        Spliterator<Node<T>> s = new BinaryTreeSpliteratorParallel(pendingNode, next);
         pendingNode = null;
         return s;
     }

@@ -1,7 +1,5 @@
 package com.tinyield.tree;
 
-import com.tinyield.jayield.INode;
-
 import java.util.Iterator;
 
 /**
@@ -12,7 +10,7 @@ import java.util.Iterator;
  *
  * @param <T>
  */
-public class BinTree<T extends Comparable<T>> implements INode<T> {
+public class BinTree<T extends Comparable<T>> implements Node<T> {
     private BinTree<T> _left;
     private BinTree<T> _right;
     private T _value;

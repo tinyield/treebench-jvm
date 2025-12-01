@@ -1,4 +1,6 @@
-package com.tinyield.jayield;
+package com.tinyield;
+
+import com.tinyield.tree.Node;
 
 import java.util.function.Consumer;
 
@@ -11,11 +13,11 @@ public interface Traverser<T> {
      */
     void traverse(Consumer<? super T> yield);
 
-    static <U> Traverser<U> fromTree(INode<U> node){
+    static <U> Traverser<U> fromTree(Node<U> node){
         return yield -> next(node, yield);
     }
 
-    static <U> void next(INode<U> root, Consumer<? super U> yield) {
+    static <U> void next(Node<U> root, Consumer<? super U> yield) {
         yield.accept(root.getValue());
         if(root.getLeft() != null) next(root.getLeft(), yield);
         if(root.getRight() != null) next(root.getRight(), yield);

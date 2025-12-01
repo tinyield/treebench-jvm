@@ -1,4 +1,4 @@
-package com.tinyield.jayield;
+package com.tinyield;
 
 /**
  * Equivalent to {@code Consumer<T>} with a yield semantics.

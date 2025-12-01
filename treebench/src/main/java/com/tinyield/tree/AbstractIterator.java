@@ -1,7 +1,5 @@
 package com.tinyield.tree;
 
-import com.tinyield.jayield.INode;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Supplier;
@@ -22,7 +20,7 @@ public abstract class AbstractIterator<U extends Comparable<U>> implements Itera
     private U nextValue;
     private boolean hasNext;
 
-    protected AbstractIterator(INode<U> tree) {
+    protected AbstractIterator(Node<U> tree) {
         this.current = buildGenerator(tree, () -> emptyGen);
         advance();
     }
@@ -33,7 +31,7 @@ public abstract class AbstractIterator<U extends Comparable<U>> implements Itera
      * @param genRestThunk supplier for the continuation generator
      * @return generator for this subtree
      */
-    protected abstract Gen<U> buildGenerator(INode<U> node, Supplier<Gen<U>> genRestThunk);
+    protected abstract Gen<U> buildGenerator(Node<U> node, Supplier<Gen<U>> genRestThunk);
 
     /**
      * Advance to the next item, updating hasNext and nextValue

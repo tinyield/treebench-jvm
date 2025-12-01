@@ -17,10 +17,6 @@ package com.tinyield.tree;
  * limitations under the License.
  */
 
-import com.tinyield.jayield.INode;
-
-import java.util.Iterator;
-
 /** This class implements AVL trees.
  *
  * <p>The purpose of this class is to sort elements while allowing
@@ -231,7 +227,7 @@ public class AVLTree<T extends Comparable<T>> {
      * reading and delete methods are public.</p>
      * @see AVLTree
      */
-    public class Node implements INode<T> {
+    public class Node implements com.tinyield.tree.Node<T> {
 
         /** Element contained in the current node. */
         private T element;
@@ -638,12 +634,12 @@ public class AVLTree<T extends Comparable<T>> {
         }
 
         @Override
-        public INode<T> getLeft() {
+        public com.tinyield.tree.Node<T> getLeft() {
             return left;
         }
 
         @Override
-        public INode<T> getRight() {
+        public com.tinyield.tree.Node<T> getRight() {
             return right;
         }
 

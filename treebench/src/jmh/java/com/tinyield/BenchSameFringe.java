@@ -2,8 +2,7 @@ package com.tinyield;
 
 import com.codepoetics.protonpack.StreamUtils;
 import com.google.common.collect.Streams;
-import com.tinyield.jayield.Advancer;
-import com.tinyield.jayield.INode;
+import com.tinyield.tree.Node;
 import com.tinyield.tree.Gen;
 import com.tinyield.tree.Item;
 import org.eclipse.collections.api.factory.Lists;
@@ -40,11 +39,11 @@ public class BenchSameFringe extends AbstractBenchBinTree {
         }
     }
 
-    private Gen<Integer> genFringe(INode<Integer> node, Gen<Integer> genRest) {
+    private Gen<Integer> genFringe(Node<Integer> node, Gen<Integer> genRest) {
         if (node == null) return genRest;
 
-        INode<Integer> left = node.getLeft();
-        INode<Integer> right = node.getRight();
+        Node<Integer> left = node.getLeft();
+        Node<Integer> right = node.getRight();
 
         // leaf node (both children null) -> yield its value then continue with genRest
         if (left == null && right == null) {

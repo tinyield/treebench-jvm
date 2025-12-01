@@ -33,9 +33,7 @@ package com.tinyield;
 
 import com.codepoetics.protonpack.StreamUtils;
 import com.google.common.collect.Streams;
-import com.tinyield.jayield.Advancer;
-import com.tinyield.jayield.INode;
-import com.tinyield.jayield.Traverser;
+import com.tinyield.tree.Node;
 import com.tinyield.tree.BinaryTreeSpliteratorParallel;
 import com.tinyield.tree.BinaryTreeSpliteratorSequential;
 import com.tinyield.tree.Gen;
@@ -61,9 +59,9 @@ public class BenchAvlTreeEquality extends AbstractBenchAvlTree {
 
     @Benchmark
     public boolean streamsParallel() {
-        Spliterator<INode<Integer>> iter1 = new BinaryTreeSpliteratorParallel<>(mainAvlTree.root);
-        Spliterator<INode<Integer>> iter2 = new BinaryTreeSpliteratorParallel<>(otherAvlTree.root);
-        ZipSpliterator<INode<Integer>, INode<Integer>, Boolean> zip = new ZipSpliterator<>(
+        Spliterator<Node<Integer>> iter1 = new BinaryTreeSpliteratorParallel<>(mainAvlTree.root);
+        Spliterator<Node<Integer>> iter2 = new BinaryTreeSpliteratorParallel<>(otherAvlTree.root);
+        ZipSpliterator<Node<Integer>, Node<Integer>, Boolean> zip = new ZipSpliterator<>(
                 iter1,
                 iter2,
                 (n1, n2) -> n1.getValue().equals(n2.getValue()));
@@ -74,9 +72,9 @@ public class BenchAvlTreeEquality extends AbstractBenchAvlTree {
 
     @Benchmark
     public boolean streams() {
-        Spliterator<INode<Integer>> iter1 = new BinaryTreeSpliteratorSequential<>(mainAvlTree.root);
-        Spliterator<INode<Integer>> iter2 = new BinaryTreeSpliteratorSequential<>(otherAvlTree.root);
-        ZipSpliterator<INode<Integer>, INode<Integer>, Boolean> zip = new ZipSpliterator<>(
+        Spliterator<Node<Integer>> iter1 = new BinaryTreeSpliteratorSequential<>(mainAvlTree.root);
+        Spliterator<Node<Integer>> iter2 = new BinaryTreeSpliteratorSequential<>(otherAvlTree.root);
+        ZipSpliterator<Node<Integer>, Node<Integer>, Boolean> zip = new ZipSpliterator<>(
                 iter1,
                 iter2,
                 (n1, n2) -> n1.getValue().equals(n2.getValue()));
@@ -136,7 +134,7 @@ public class BenchAvlTreeEquality extends AbstractBenchAvlTree {
         }
     }
 
-    private Gen<Integer> genPreOrder(INode<Integer> node, Gen<Integer> genRest) {
+    private Gen<Integer> genPreOrder(Node<Integer> node, Gen<Integer> genRest) {
         if (node == null) return genRest;
 
         // Pre-order: yield current node, then left, then right

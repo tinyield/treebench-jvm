@@ -1,4 +1,6 @@
-package com.tinyield.jayield;
+package com.tinyield;
+
+import com.tinyield.tree.Node;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -101,7 +103,7 @@ public interface Advancer<T> {
         /**
          * Helper method to build generator yielding nodes, and then delegating to `genRest`.
          */
-        abstract Advancer<U> gen(INode<U> node, Supplier<Advancer<U>> genRest);
+        abstract Advancer<U> gen(Node<U> node, Supplier<Advancer<U>> genRest);
     }
 
     /**
@@ -113,10 +115,10 @@ public interface Advancer<T> {
      * @param <U> the type of elements in the tree
      * @return an Advancer that yields nodes in pre-order (current, left, right)
      */
-    static <U> Advancer<U> preOrder(INode<U> node){
+    static <U> Advancer<U> preOrder(Node<U> node){
         AdvancerScope<U> current = new AdvancerScope<>() {
             @Override
-            Advancer<U> gen(INode<U> node, Supplier<Advancer<U>> genRest) {
+            Advancer<U> gen(Node<U> node, Supplier<Advancer<U>> genRest) {
                 return node == null
                         ? genRest.get()
                         : (yield -> { // Pre-order: yield current node, then left, then right
@@ -139,10 +141,10 @@ public interface Advancer<T> {
      * @param <U> the type of elements in the tree
      * @return an Advancer that yields leaves left-to-right
      */
-    static <U> Advancer<U> getLeaves(INode<U> root){
+    static <U> Advancer<U> getLeaves(Node<U> root){
         AdvancerScope<U> current = new AdvancerScope<>() {
             @Override
-            Advancer<U> gen(INode<U> node, Supplier<Advancer<U>> genRest) {
+            Advancer<U> gen(Node<U> node, Supplier<Advancer<U>> genRest) {
                 if (node == null) {
                     return genRest.get();
                 }

@@ -1,6 +1,6 @@
 package com.tinyield
 
-import com.tinyield.jayield.INode
+import com.tinyield.tree.Node
 import com.tinyield.tree.BinTree
 import java.util.function.BiPredicate
 
@@ -33,8 +33,8 @@ fun <T : Comparable<T>?, U : Comparable<U>?> sameFringe(
  * * @return true if the nodes of both trees are the same according to the predicate; false otherwise.
  */
 fun <T : Comparable<T>?, U : Comparable<U>?> equality(
-    q1: INode<T>,
-    q2: INode<U>,
+    q1: Node<T>,
+    q2: Node<U>,
     predicate: BiPredicate<T, U>,
 ): Boolean =
     preOrder(q1)
@@ -49,7 +49,7 @@ fun <T : Comparable<T>?, U : Comparable<U>?> equality(
  * * @return The result of reducing the elements of the AVL tree using the specified operation.
  */
 fun <T : Comparable<T>?, U : Comparable<U>?> reduce(
-    q1: INode<T>,
+    q1: Node<T>,
     operation: (acc: T, T) -> T,
 ): T = preOrder(q1).reduce(operation)
 
@@ -59,7 +59,7 @@ fun <T : Comparable<T>?, U : Comparable<U>?> reduce(
  * * @param q1 The AVL tree from which to retrieve distinct elements.
  * * @return A list containing the distinct elements from the pre-order traversal of the AVL tree.
  */
-fun <T : Comparable<T>?, U : Comparable<U>?> distinctToList(q1: INode<T>): List<T> = preOrder(q1).distinct().toList()
+fun <T : Comparable<T>?, U : Comparable<U>?> distinctToList(q1: Node<T>): List<T> = preOrder(q1).distinct().toList()
 
 /**
  * Helper function to get the leaves of a binary tree as a sequence.
@@ -67,9 +67,9 @@ fun <T : Comparable<T>?, U : Comparable<U>?> distinctToList(q1: INode<T>): List<
  * * @param root The root node of the binary tree.
  * * @return A sequence of leaf values from the binary tree.
  */
-fun <T : Comparable<T>?> getLeaves(root: INode<T>): Sequence<T> =
+fun <T : Comparable<T>?> getLeaves(root: Node<T>): Sequence<T> =
     sequence {
-        suspend fun SequenceScope<T>.traverseLeaves(node: INode<T>) {
+        suspend fun SequenceScope<T>.traverseLeaves(node: Node<T>) {
             val left = node.getLeft()
             val right = node.getRight()
 
@@ -89,9 +89,9 @@ fun <T : Comparable<T>?> getLeaves(root: INode<T>): Sequence<T> =
  * * @param root The root node of the AVL tree.
  * * @return A sequence of values from the AVL tree in pre-order.
  */
-fun <T : Comparable<T>?> preOrder(root: INode<T>?): Sequence<T> =
+fun <T : Comparable<T>?> preOrder(root: Node<T>?): Sequence<T> =
     sequence {
-        suspend fun SequenceScope<T>.traversePreOrder(node: INode<T>?) {
+        suspend fun SequenceScope<T>.traversePreOrder(node: Node<T>?) {
             if (node == null) return
 
             // Pre-order: yield current, then left, then right

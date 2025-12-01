@@ -1,8 +1,7 @@
 package com.tinyield;
 
 
-import com.tinyield.jayield.Advancer;
-import com.tinyield.jayield.INode;
+import com.tinyield.tree.Node;
 import com.tinyield.tree.BinaryTreeSpliteratorParallel;
 import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.list.ListIterable;
@@ -23,7 +22,7 @@ public class BenchDistinctTree extends AbstractBenchAvlTree {
     @Param({"1000000"})
     public int COLLECTION_SIZE = 16; // For Unit Tests
 
-    private static void adhoc(INode<Integer> root, List<Integer> selected) {
+    private static void adhoc(Node<Integer> root, List<Integer> selected) {
         if (!selected.contains(root.getValue())) {
             selected.add(root.getValue());
         }
@@ -50,7 +49,7 @@ public class BenchDistinctTree extends AbstractBenchAvlTree {
     public List<Integer> streamsParallel() {
         return StreamSupport
                 .stream(new BinaryTreeSpliteratorParallel<>(mainAvlTree.root), true)
-                .map(INode::getValue)
+                .map(Node::getValue)
                 .distinct()
                 .collect(toList());
     }

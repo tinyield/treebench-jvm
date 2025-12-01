@@ -1,9 +1,8 @@
-package com.tinyield;
+package com.tinyield.tree;
 
 /**
  * @author Saiteja Tokala
  */
-import com.tinyield.jayield.INode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +21,12 @@ public class TreePrinter
      * @param root
      *            tree root node
      */
-    public static void print(INode root)
+    public static void print(Node root)
     {
         List<List<String>> lines = new ArrayList<>();
 
-        List<INode> level = new ArrayList<>();
-        List<INode> next = new ArrayList<>();
+        List<Node> level = new ArrayList<>();
+        List<Node> next = new ArrayList<>();
 
         level.add(root);
         int nn = 1;
@@ -39,7 +38,7 @@ public class TreePrinter
 
             nn = 0;
 
-            for (INode n : level) {
+            for (Node n : level) {
                 if (n == null) {
                     line.add(null);
 
@@ -62,7 +61,7 @@ public class TreePrinter
 
             lines.add(line);
 
-            List<INode> tmp = level;
+            List<Node> tmp = level;
             level = next;
             next = tmp;
             next.clear();

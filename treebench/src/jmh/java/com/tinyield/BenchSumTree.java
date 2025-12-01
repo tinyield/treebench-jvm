@@ -1,8 +1,7 @@
 package com.tinyield;
 
 
-import com.tinyield.jayield.Advancer;
-import com.tinyield.jayield.INode;
+import com.tinyield.tree.Node;
 import com.tinyield.tree.BinaryTreeSpliteratorParallel;
 import org.eclipse.collections.api.factory.Lists;
 import org.openjdk.jmh.annotations.Benchmark;
@@ -22,7 +21,7 @@ public class BenchSumTree extends AbstractBenchAvlTree {
     public int adhoc() {
         return adhoc(mainAvlTree.root);
     }
-    private static int adhoc(INode<Integer> root) {
+    private static int adhoc(Node<Integer> root) {
         int sum = root.getValue();
         if(root.getLeft() != null) sum += adhoc(root.getLeft());
         if(root.getRight() != null) sum += adhoc(root.getRight());
