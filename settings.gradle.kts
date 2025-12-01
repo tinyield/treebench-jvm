@@ -5,3 +5,4 @@ plugins {
 
 rootProject.name = "treebench-jvm"
 include("samples")
+include("treebench")

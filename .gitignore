@@ -1,3 +1,6 @@
+# Ignore Kotlin cache
+.kotlin
+
 # Ignore IJ cache
 .idea
 
