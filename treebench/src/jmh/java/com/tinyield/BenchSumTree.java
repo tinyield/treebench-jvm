@@ -7,6 +7,7 @@ import org.eclipse.collections.api.factory.Lists;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Param;
 
+import java.util.List;
 import java.util.stream.StreamSupport;
 
 public class BenchSumTree extends AbstractBenchAvlTree {
@@ -66,6 +67,23 @@ public class BenchSumTree extends AbstractBenchAvlTree {
             .streamEx(mainAvlTree.preOrder())
             .reduce(0, Integer::sum);
     }
+
+    @Benchmark
+    public int guava() {
+        return Extensions
+                .guava(mainAvlTree.preOrder())
+                .reduce(0, Integer::sum);
+
+    }
+
+    @Benchmark
+    public int protonpack() {
+        return Extensions
+                .protonpack(mainAvlTree.preOrder())
+                .reduce(0, Integer::sum);
+
+    }
+
     @Benchmark
     public int eclipse() {
         return Lists.immutable.ofAll(mainAvlTree.preOrder()).asLazy()

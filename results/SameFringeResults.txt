@@ -1,0 +1,28 @@
+# > system_profiler SPHardwareDataType
+Chip: Apple M1 Pro
+Total Number of Cores: 8 (6 performance and 2 efficiency)
+Memory: 16 GB
+
+# JMH version: 1.37
+# VM version: JDK 21.0.2, OpenJDK 64-Bit Server VM, 21.0.2+13-LTS
+# VM invoker: /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home/bin/java
+# Warmup: 4 iterations, 2 s each
+# Measurement: 4 iterations, 2 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Parameters: (COLLECTION_SIZE = 1000000)
+
+# NEW BinTree leaves() with Iterator implementation based on Henry BAker recursive proposal WITHOUT nextLeaf()
+
+Benchmark                         (COLLECTION_SIZE)  Mode  Cnt    Score    Error  Units
+adhoc                                    1000000     avgt    4    30.734 ± 1.299  ms/op
+advancer                                 1000000     avgt    4    45.629 ± 0.310  ms/op
+eclipse                                  1000000     avgt    4    69.150 ± 4.024  ms/op
+guava                                    1000000     avgt    4    73.188 ± 0.830  ms/op
+java-streams                             1000000     avgt    4    63.864 ± 0.990  ms/op
+jool                                     1000000     avgt    4    65.306 ± 0.230  ms/op
+kotlin                                   1000000     avgt    4    89.729 ± 1.329  ms/op
+protonpack                               1000000     avgt    4    60.151 ± 2.161  ms/op
+streamEx                                 1000000     avgt    4    67.341 ± 2.804  ms/op
+vavr                                     1000000     avgt    4   134.293 ±20.091  ms/op

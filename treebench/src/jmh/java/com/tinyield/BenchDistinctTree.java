@@ -87,6 +87,24 @@ public class BenchDistinctTree extends AbstractBenchAvlTree {
     }
 
     @Benchmark
+    public List<Integer> guava() {
+        return Extensions
+                .guava(mainAvlTree.preOrder())
+                .distinct()
+                .toList();
+
+    }
+
+    @Benchmark
+    public List<Integer> protonpack() {
+        return Extensions
+                .protonpack(mainAvlTree.preOrder())
+                .distinct()
+                .toList();
+
+    }
+
+    @Benchmark
     public ListIterable<Integer> eclipse() {
         return Lists.immutable.ofAll(mainAvlTree.preOrder()).asLazy()
                 .distinct()

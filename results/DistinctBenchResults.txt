@@ -1,0 +1,11 @@
+Benchmark          (TREE_SIZE)  Mode  Cnt     Score      Error  Units
+adhoc                 10000000  avgt    4    76.239 ±    1.808  ms/op
+advancer              10000000  avgt    4   142.019 ±    3.411  ms/op
+eclipse               10000000  avgt    4   225.947 ±   72.658  ms/op
+guava                 10000000  avgt    4   185.687 ±   15.848  ms/op
+jool                  10000000  avgt    4   206.858 ±   13.664  ms/op
+kotlin                10000000  avgt    4   375.183 ±    3.920  ms/op
+protonpack            10000000  avgt    4   178.081 ±    3.106  ms/op
+streamEx              10000000  avgt    4   205.349 ±    7.106  ms/op
+java-streams          10000000  avgt    4   177.436 ±    3.482  ms/op
+vavr                  10000000  avgt    4   292.996 ±   31.037  ms/op
