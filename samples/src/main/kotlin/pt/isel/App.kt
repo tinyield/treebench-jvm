@@ -1,17 +1,17 @@
 package pt.isel
 
-import pt.isel.Numbers.NumbersDigitTest
-import java.util.function.BiFunction
+import com.tinyield.Advancer
 import java.util.stream.Stream
 import kotlin.streams.asSequence
 import kotlin.streams.asStream
 
 fun main() {
-    // checkCullen(10)
-    NumbersDigitTest()
+    checkCullenSequence(10)
+    checkCullenAdvancer(10)
     ZipIterable
         .zip(
-            cullen()
+            SequenceCullen
+                .cullen()
                 .asStream()
                 .limit(10),
             Stream.generate { ", " },
@@ -20,7 +20,8 @@ fun main() {
     println()
     Extensions
         .zip(
-            cullen()
+            SequenceCullen
+                .cullen()
                 .asStream()
                 .limit(10),
             Stream.generate { ", " },
@@ -28,14 +29,14 @@ fun main() {
         .forEach(::print)
     println()
     convolve(
-        cullen().take(10),
+        SequenceCullen.cullen().take(10),
         Stream.generate { ", " }.asSequence(),
     ) { nr, sep -> nr.toString() + sep }
         .forEach(::print)
 }
 
-fun checkCullen(count: Int) {
-    val cullen = cullen()
+fun checkCullenSequence(count: Int) {
+    val cullen: Sequence<Int> = SequenceCullen.cullen()
     var limit = count
 
     for (nr in cullen) {
@@ -44,25 +45,23 @@ fun checkCullen(count: Int) {
     }
 }
 
-fun cullen() =
-    sequence {
-        var i = 1
-        while (true) {
-            val nr = (1 shl i) * i + 1
-            yield(nr)
-            i++
-        }
+fun checkCullenAdvancer(count: Int) {
+    val cullen: Advancer<Int> = AdvancerCullen.cullen()
+    var limit = 10
+    while (cullen(::println)) {
+        if (--limit < 1) break
     }
+}
 
 fun <T, U, R> convolve(
     self: Sequence<T>,
     other: Sequence<U>,
-    zipper: BiFunction<T, U, R>,
+    zipper: (T, U) -> R,
 ) = sequence {
     val rightIter = other.iterator()
     for (left in self) {
         if (rightIter.hasNext()) {
-            yield(zipper.apply(left, rightIter.next()))
+            yield(zipper(left, rightIter.next()))
         }
     }
 }

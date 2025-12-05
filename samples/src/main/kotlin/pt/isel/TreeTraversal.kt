@@ -1,25 +1,26 @@
 package pt.isel
 
+fun <T : Any, U : Any> sameFringe(
+    tree: Node<T>,
+    other: Node<U>,
+): Boolean = tree.leaves().zip(other.leaves(), Any::equals).all { item -> item }
+
 /**
  * Helper function to get the leaves of a binary tree as a sequence.
  *
  * * @param root The root node of the binary tree.
  * * @return A sequence of leaf values from the binary tree.
  */
-fun <T : Comparable<T>> getLeaves(node: Node<T>): Sequence<T> =
+fun <T> Node<T>.leaves(): Sequence<T> =
     sequence {
-        if (node.left == null && node.right == null) {
-            yield(node.value)
+        if (left == null && right == null) {
+            yield(value)
         } else {
-            if (node.left != null) {
-                for (n in getLeaves(node.left)) {
-                    yield(n)
-                }
+            for (n in left?.leaves() ?: emptySequence()) {
+                yield(n)
             }
-            if (node.right != null) {
-                for (n in getLeaves(node.right)) {
-                    yield(n)
-                }
+            for (n in right?.leaves() ?: emptySequence()) {
+                yield(n)
             }
         }
     }
