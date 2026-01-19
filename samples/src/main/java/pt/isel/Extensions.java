@@ -14,9 +14,11 @@ public class Extensions {
         Spliterator<U> otherIter = other.spliterator();
         return StreamSupport.stream(new AbstractSpliterator<>(Long.min(selfIter.estimateSize(), otherIter.estimateSize()), selfIter.characteristics() & otherIter.characteristics()) {
             public boolean tryAdvance(Consumer<? super R> cons) {
-                return selfIter.tryAdvance(
-                        left -> otherIter.tryAdvance(
+                boolean[] yielded = {false};
+                selfIter.tryAdvance(left ->
+                        yielded[0] = otherIter.tryAdvance(
                                 right -> cons.accept(zipper.apply(left, right))));
+                return yielded[0];
             }
         }, false);
     }
